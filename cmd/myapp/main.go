@@ -1,28 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 )
 
-type application struct {
-	templateCache map[string]*template.Template
-}
-
-func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello")
-}
-
 func main() {
-	app := &application{
-		templateCache: make(map[string]*template.Template),
+
+	http.Handle("/", http.FileServer(http.Dir("./ui/html")))
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	router := http.NewServeMux()
-	router.HandleFunc("GET /", app.home)
-
-	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
