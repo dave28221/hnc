@@ -14,7 +14,16 @@ func main() {
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl := template.New("")
-		tmpl.ParseGlob("html/*.html")
+
+		tmpl, err := tmpl.ParseGlob("ui/html/*.html")
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			log.Println("Error parsing templates:", err)
+			return
+		}
+
+		tmpl.ExecuteTemplate(w, "index.html", nil)
+
 		for _, t := range tmpl.Templates() {
 			fmt.Println(t.Name())
 		}
