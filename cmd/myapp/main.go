@@ -8,32 +8,31 @@ import (
 )
 
 func main() {
-	//parse static files including css and js//
-
 	router := http.NewServeMux()
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl := template.New("")
+	// ✅ Serve static files from ui/static/ at /static/ URL path
+	fs := http.FileServer(http.Dir("ui/static"))
+	router.Handle("/static/", http.StripPrefix("/static/", fs))
 
-		tmpl, err := tmpl.ParseGlob("ui/html/*.html")
+	// ✅ Serve the HTML template
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		tmpl, err := template.ParseGlob("ui/html/*.html")
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			log.Println("Error parsing templates:", err)
 			return
 		}
 
-		tmpl.ExecuteTemplate(w, "index.html", nil)
-
-		for _, t := range tmpl.Templates() {
-			fmt.Println(t.Name())
+		err = tmpl.ExecuteTemplate(w, "index.html", nil)
+		if err != nil {
+			log.Println("Template execution error:", err)
 		}
 
+		for _, t := range tmpl.Templates() {
+			fmt.Println("Parsed template:", t.Name())
+		}
 	})
 
-	fmt.Println("server is up and running on 8080")
-	err := http.ListenAndServe(":8080", router)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	fmt.Println("Server is running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
