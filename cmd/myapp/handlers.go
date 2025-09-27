@@ -14,24 +14,36 @@ if r.ULR.Path =! "/"{
 }
 */
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseGlob("ui/html/*.html")
+// package level variable
+var tmpl *template.Template
+
+func templateParse() {
+	var err error
+	tmpl, err = template.ParseGlob("ui/html/*.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		log.Println("Error parsing templates:", err)
+		// nmaybe make fatal error
 		return
+
+	}
+	for _, t := range tmpl.Templates() {
+		fmt.Println("Parsed template:", t.Name())
 	}
 
-	err = tmpl.ExecuteTemplate(w, "index.html", nil)
+}
+
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	err := tmpl.ExecuteTemplate(w, "index.html", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)
 	}
 
-	for _, t := range tmpl.Templates() {
-		fmt.Println("Parsed template:", t.Name())
-	}
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	err := tmpl.ExecuteTemplate(w, "login.html", nil)
+	if err != nil {
+		log.Println("Template execution error:", err)
+	}
 
 }
