@@ -2,9 +2,14 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 body {}
+
+p {
+    font-size: 12px;
+}
 
 .wrapper {
     width: 85%;
@@ -15,34 +20,47 @@ body {}
 nav {
     text-align: center;
     background-color: #ff6600;
-    margin-top:10px;
-    padding:3px;
+    margin-top: 10px;
+
 }
 
 nav ul {
     margin: 0;
     padding: 0;
+    width:100%;
     display: inline-block;
+
 
 }
 
 nav li {
     display: inline-block;
+    padding-bottom: 5px;
+
 }
 
-.titleSite{
-    font-weight:bolder;
-    margin-right:10px;
-}
 nav li a {
     text-decoration: none;
-     font-size:16px; 
-     color: #000000;
+    font-size: 12px;
+    color: #000000;
+
 }
+
+ul li:last-child {
+    float: right;
+    margin-right:10px;
+}
+
+.titleSite {
+    font-weight: bolder;
+    margin-right: 10px;
+}
+
 
 .hNav {
     display: flex;
 }
+
 
 .bodySection {
     background-color: #f6f6ef;
