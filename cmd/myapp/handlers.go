@@ -7,7 +7,13 @@ import (
 	"net/http"
 )
 
-// handlers
+/* sort out 404
+if r.ULR.Path =! "/"{
+	http.NotFound(w, r)
+	return
+}
+*/
+
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseGlob("ui/html/*.html")
 	if err != nil {
