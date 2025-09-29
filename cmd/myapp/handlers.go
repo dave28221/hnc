@@ -7,13 +7,6 @@ import (
 	"net/http"
 )
 
-/* sort out 404
-if r.ULR.Path =! "/"{
-	http.NotFound(w, r)
-	return
-}
-*/
-
 // package level variable
 var tmpl *template.Template
 
@@ -33,6 +26,12 @@ func templateParse() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+	//404 hack?
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+
 	err := tmpl.ExecuteTemplate(w, "index", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)
