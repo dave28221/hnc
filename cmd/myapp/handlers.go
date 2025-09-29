@@ -33,7 +33,7 @@ func templateParse() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	err := tmpl.ExecuteTemplate(w, "index.html", nil)
+	err := tmpl.ExecuteTemplate(w, "index", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)
 	}
@@ -41,7 +41,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	err := tmpl.ExecuteTemplate(w, "login.html", nil)
+	err := tmpl.ExecuteTemplate(w, "content", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)
 	}

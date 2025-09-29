@@ -1,6 +1,6 @@
+{{ define "index"}}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,29 +9,13 @@
 </head>
 
 <body>
-  <!-- sort out menu positioning-->
   <div class="wrapper">
-    <nav class="hNav">
-      <ul>
-        <li class="titleSite"><a href="/">Hacker News Central</a></li>
-        <li><a href="newest">new | </a></li>
-        <li><a href="#">past | </a></li>
-        <li><a href="#">comments | </a></li>
-        <li><a href="#">ask | </a></li>
-        <li><a href="#">show | </a></li>
-        <li><a href="#">jobs | </a></li>
-        <li><a href="#">submit</a></li>
-        <li><a href="login">login</a></li>
-      </ul>
-    </nav>
+    {{template "nav" .}}
     <div class="bodySection">
-      <section>
-        <h1></h1>
-        <p></p>
-        <p></p>
-      </section>
+     {{template "content" .}}
     </div>
   </div>
 </body>
 
 </html>
+{{end}}
