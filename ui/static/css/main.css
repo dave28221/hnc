@@ -27,7 +27,7 @@ nav {
 nav ul {
     margin: 0;
     padding: 0;
-    width:100%;
+    width: 100%;
     display: inline-block;
 
 
@@ -48,7 +48,7 @@ nav li a {
 
 ul li:last-child {
     float: right;
-    margin-right:10px;
+    margin-right: 10px;
 }
 
 .titleSite {
@@ -56,16 +56,39 @@ ul li:last-child {
     margin-right: 10px;
 }
 
-
 .hNav {
     display: flex;
 }
-
 
 .bodySection {
     background-color: #f6f6ef;
     height: 100vh;
     display: flex;
     justify-content: center;
+}
 
+
+.bodySectionLogin {
+    background-color: #f6f6ef;
+    height: 100vh;
+
+    padding-top:30px;
+
+}
+
+.formName {
+    font-size: 20px;
+    padding-left:20px;
+}
+
+.formButton{
+    background-color:#ff6600;
+    padding:5px;
+    border:none;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+form{
+    padding:20px;
 }

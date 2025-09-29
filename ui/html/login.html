@@ -2,10 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 {{template "header" .}}
+
 <body>
   <div class="wrapper">
     {{template "nav" .}}
-    <div class="bodySection">
+    <div class="bodySectionLogin">
+      <h2 class="formName">Login</h2>
       <form action="/login" method="post">
         <input type="hidden" name="goto" value="news">
         <table>
@@ -21,8 +23,9 @@
             </tr>
           </tbody>
         </table><br>
-        <input type="submit" value="login">
+        <input class="formButton" type="submit" value="login">
       </form>
+      <h2 class="formName">Create Account</h2>
       <form action="/login" method="post">
         <input type="hidden" name="goto" value="news">
         <input type="hidden" name="creating" value="t">
@@ -39,10 +42,9 @@
             </tr>
           </tbody>
         </table><br>
-        <input type="submit" value="create account">
+        <input class="formButton" type="submit" value="create account">
       </form>
       {{ end }}
-
     </div>
   </div>
 </body>
