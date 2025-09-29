@@ -41,7 +41,8 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	err := tmpl.ExecuteTemplate(w, "content", nil)
+
+	err := tmpl.ExecuteTemplate(w, "login", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)
 	}

@@ -1,36 +1,50 @@
-{{define "content"}}
-<form action="login" method="post">
-  <input type="hidden" name="goto" value="news">
-  <table>
-    <tbody>
-      <tr>
-        <td>username:</td>
-        <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off" autofocus></td>
-      </tr>
-      <tr>
-        <td>password:</td>
-        <td><input type="password" name="pw" size="20"></td>
-      </tr>
-    </tbody>
-  </table><br>
-  <input type="submit" value="login">
-</form>
+{{ define "login" }}
+<!DOCTYPE html>
+<html lang="en">
+{{template "header" .}}
+<body>
+  <div class="wrapper">
+    {{template "nav" .}}
+    <div class="bodySection">
+      <form action="/login" method="post">
+        <input type="hidden" name="goto" value="news">
+        <table>
+          <tbody>
+            <tr>
+              <td>username:</td>
+              <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off"
+                  autofocus></td>
+            </tr>
+            <tr>
+              <td>password:</td>
+              <td><input type="password" name="pw" size="20"></td>
+            </tr>
+          </tbody>
+        </table><br>
+        <input type="submit" value="login">
+      </form>
+      <form action="/login" method="post">
+        <input type="hidden" name="goto" value="news">
+        <input type="hidden" name="creating" value="t">
+        <table>
+          <tbody>
+            <tr>
+              <td>username:</td>
+              <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off">
+              </td>
+            </tr>
+            <tr>
+              <td>password:</td>
+              <td><input type="password" name="pw" size="20"></td>
+            </tr>
+          </tbody>
+        </table><br>
+        <input type="submit" value="create account">
+      </form>
+      {{ end }}
 
-<form action="login" method="post">
-  <input type="hidden" name="goto" value="news">
-  <input type="hidden" name="creating" value="t">
-  <table>
-    <tbody>
-      <tr>
-        <td>username:</td>
-        <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off"></td>
-      </tr>
-      <tr>
-        <td>password:</td>
-        <td><input type="password" name="pw" size="20"></td>
-      </tr>
-    </tbody>
-  </table><br>
-  <input type="submit" value="create account">
-</form>
-{{end}}
+    </div>
+  </div>
+</body>
+
+</html>
