@@ -13,35 +13,45 @@
               <td>username:</td>
               <td><input id="username" type="text" name="acct" size="20" autocorrect="off" spellcheck="false"
                   autocapitalize="off" autocomplete="username" autofocus></td>
-            </tr>
-            <span id="name-error" class="error-message"></span>
-            <tr>
-              <td>password:</td>
-              <td><input id="password" type="password" name="pw" size="20" autocomplete="current-password"></td>
-            </tr>
-            <span id="password-error" class="error-message"></span>
-          </tbody>
-        </table><br>
-        <input class="formButton" type="submit" value="login">
-      </form>
-      <!--
-      <h2 class="formName">Create Account</h2>
-      <form action="/login" method="post">
-        <table>
-          <tbody>
-            <tr>
-              <td>username:</td>
-              <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off">
+              <td colspan="2">
+                <span id="name-error" class="error-message"></span>
               </td>
             </tr>
             <tr>
               <td>password:</td>
-              <td><input type="password" name="pw" size="20"></td>
+              <td><input id="password" type="password" name="pw" size="20" autocomplete="current-password"></td>
+              <td colspan="2">
+                <span id="password-error" class="error-message"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table><br>
+        <input class="formButton" type="submit" value="login">
+      </form>
+    
+      <h2 class="formName">Create Account</h2>
+      <form id="createAccountForm" action="/" method="post">
+        <table>
+          <tbody>
+            <tr>
+              <td>username:</td>
+              <td><input id="usernameCreate" type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off">
+              </td>
+               <td colspan="2">
+                <span id="createusername-error" class="error-message"></span>
+              </td>
+            </tr>
+            <tr>
+              <td>password:</td>
+              <td><input id="passwordCreate" type="password" name="pw" size="20"></td>
+               <td colspan="2">
+                <span id="createpassword-error" class="error-message"></span>
+              </td>
             </tr>
           </tbody>
         </table><br>
         <input class="formButton" type="submit" value="create account">
-      </form>-->
+      </form>
       {{ end }}
     </div>
   </div>

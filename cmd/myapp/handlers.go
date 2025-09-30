@@ -22,7 +22,6 @@ func templateParse() {
 	for _, t := range tmpl.Templates() {
 		fmt.Println("Parsed template:", t.Name())
 	}
-
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {

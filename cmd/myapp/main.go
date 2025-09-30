@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	templateParse()
 	//router
 	router := http.NewServeMux()
