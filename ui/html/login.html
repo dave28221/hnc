@@ -1,6 +1,4 @@
 {{ define "login" }}
-<!DOCTYPE html>
-<html lang="en">
 {{template "header" .}}
 
 <body>
@@ -8,27 +6,27 @@
     {{template "nav" .}}
     <div class="bodySectionLogin">
       <h2 class="formName">Login</h2>
-      <form action="/login" method="post">
-        <input type="hidden" name="goto" value="news">
+      <form id="loginForm" action="/login" method="post">
         <table>
           <tbody>
             <tr>
               <td>username:</td>
-              <td><input type="text" name="acct" size="20" autocorrect="off" spellcheck="false" autocapitalize="off"
-                  autofocus></td>
+              <td><input id="username" type="text" name="acct" size="20" autocorrect="off" spellcheck="false"
+                  autocapitalize="off" autocomplete="username" autofocus></td>
             </tr>
+            <span id="name-error" class="error-message"></span>
             <tr>
               <td>password:</td>
-              <td><input type="password" name="pw" size="20"></td>
+              <td><input id="password" type="password" name="pw" size="20" autocomplete="current-password"></td>
             </tr>
+            <span id="password-error" class="error-message"></span>
           </tbody>
         </table><br>
         <input class="formButton" type="submit" value="login">
       </form>
+      <!--
       <h2 class="formName">Create Account</h2>
       <form action="/login" method="post">
-        <input type="hidden" name="goto" value="news">
-        <input type="hidden" name="creating" value="t">
         <table>
           <tbody>
             <tr>
@@ -43,7 +41,7 @@
           </tbody>
         </table><br>
         <input class="formButton" type="submit" value="create account">
-      </form>
+      </form>-->
       {{ end }}
     </div>
   </div>
