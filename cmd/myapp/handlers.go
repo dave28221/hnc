@@ -25,7 +25,6 @@ func templateParse() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	//404 hack?
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -39,7 +38,6 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-
 	err := tmpl.ExecuteTemplate(w, "login", nil)
 	if err != nil {
 		log.Println("Template execution error:", err)

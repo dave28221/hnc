@@ -8,6 +8,7 @@ import (
 
 func main() {
 	templateParse()
+	formData()
 	//router
 	router := http.NewServeMux()
 
