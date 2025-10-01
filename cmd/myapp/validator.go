@@ -18,8 +18,6 @@ var decoder *form.Decoder
 
 func formData() {
 	decoder = form.NewDecoder()
-
-	// this simulates the results of http.Request's ParseForm() function
 	values := parseForm()
 
 	var user User
