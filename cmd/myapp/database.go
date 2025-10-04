@@ -13,6 +13,7 @@ func dbSetup() {
 		log.Fatal(err)
 	}
 	defer db.Close()
+
 	sqlStmt := `
 	CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
