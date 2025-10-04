@@ -37,12 +37,6 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-type Users struct {
-	ID       int    `json: "id`
-	username string `json: username`
-	password string `json: password`
-}
-
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	err := tmpl.ExecuteTemplate(w, "login", nil)
 	if err != nil {
