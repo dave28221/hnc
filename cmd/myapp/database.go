@@ -2,10 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
-	_ "github.com/mattn/go-sqlite3" // SQLite driver
+	_ "modernc.org/sqlite" // SQLite driver
 )
 
 type Users struct {
@@ -15,42 +14,11 @@ type Users struct {
 }
 
 func dbSetup() {
-	db, err := sql.Open("sqlite3", "./app.db")
+	db, err := sql.Open("sqlite", "./app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
-
-	// https://www.sqlitetutorial.net/sqlite-go/insert/.   ---- link
-	// Create table if not exists
-	sqlStmt := `
-	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		username TEXT NOT NULL UNIQUE,
-		password TEXT NOT NULL
-	);
-	`
-	_, err = db.Exec(sqlStmt)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("Table 'users' created successfully")
-
-	// Create user instance
-	user := Users{
-		Username: "James",
-		Password: "lol1234",
-	}
-
-	// Insert user
-	userID, err := Insert(db, user)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// Print inserted user info
-	fmt.Printf("The user %s was inserted with ID: %d\n", user.Username, userID)
 }
 
 // Insert inserts a user into the database and returns the inserted ID
