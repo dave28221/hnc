@@ -13,12 +13,18 @@ type Users struct {
 	Password string `json:"password"`
 }
 
+var db *sql.DB
+
 func dbSetup() {
+	var err error
 	db, err := sql.Open("sqlite", "./app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+
+	if err = db.Ping(); err != nil {
+		log.Fatal("Error connecting to database:", err)
+	}
 }
 
 // Insert inserts a user into the database and returns the inserted ID
