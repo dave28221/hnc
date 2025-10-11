@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
             passwordError.textContent = "please enter a valid password"
             noError = false;
         }
+        if (!noError) {
+            e.preventDefault();
+        }
 
 
     });
@@ -30,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const createAccountForm = document.getElementById("createAccountForm");
 
     createAccountForm.addEventListener("submit", (e) => {
-        e.preventDefault();
         const username = document.getElementById("usernameCreate").value;
         const password = document.getElementById("passwordCreate").value;
 
@@ -49,6 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (password === "") {
             passwordError.textContent = "Please enter a password"
             noError = false;
+        }
+
+        if (!noError) {
+            e.preventDefault();
         }
 
     });

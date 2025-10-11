@@ -9,9 +9,10 @@ import (
 
 // package level variable
 var tmpl *template.Template
+var err error
 
 func templateParse() {
-	var err error
+
 	tmpl, err = template.ParseGlob("ui/html/*.html")
 	if err != nil {
 		log.Println("Error parsing templates:", err)
@@ -38,13 +39,21 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl.ExecuteTemplate(w, "login", nil)
+	if err != nil {
+		log.Println("Template execution error:", err)
+		http.Error(w, "Template error", http.StatusInternalServerError)
+	}
+
+}
+
+func createHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		username := r.FormValue("createUser")
 		password := r.FormValue("createPassword")
 
 		fmt.Printf("Received: %s, %s\n", username, password)
 
-		// Insert into database
 		_, err := Insert(db, Users{})
 		if err != nil {
 			log.Println("Error inserting user:", err)
@@ -52,15 +61,8 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		//  redirect after success
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
-	// Render the login template for GET requests
-	err := tmpl.ExecuteTemplate(w, "login", nil)
-	if err != nil {
-		log.Println("Template execution error:", err)
-		http.Error(w, "Template error", http.StatusInternalServerError)
-	}
 }

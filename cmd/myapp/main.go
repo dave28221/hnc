@@ -16,6 +16,7 @@ func main() {
 	//routes
 	router.HandleFunc("/", homeHandler)
 	router.HandleFunc("/login", loginHandler)
+	router.HandleFunc("/create", createHandler)
 
 	//parse files
 	fs := http.FileServer(http.Dir("ui/static"))
