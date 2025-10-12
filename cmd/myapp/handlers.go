@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // package level variable
@@ -37,6 +39,16 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "login", nil)
 	if err != nil {
@@ -53,10 +65,19 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("Received: %s, %s\n", username, password)
 
+		hashedPassword, error := HashPassword(password)
+		if error != nil {
+			log.Println("Error hashing password:", err)
+			http.Error(w, "Server error", http.StatusInternalServerError)
+			return
+		}
+
 		user := Users{
 			Username: username,
-			Password: password,
+			Password: hashedPassword,
 		}
+
+		// check if user already exists - create this function or sort this out
 
 		_, err := Insert(db, user)
 		if err != nil {
