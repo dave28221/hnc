@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 
+	"golang.org/x/crypto/bcrypt"
 	_ "modernc.org/sqlite" // SQLite driver
 )
 
@@ -14,6 +15,16 @@ type Users struct {
 }
 
 var db *sql.DB
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
 
 func dbSetup() {
 	var err error
