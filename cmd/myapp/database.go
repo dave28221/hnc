@@ -17,7 +17,7 @@ var db *sql.DB
 
 func dbSetup() {
 	var err error
-	db, err := sql.Open("sqlite", "./app.db")
+	db, err = sql.Open("sqlite", "./app.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +27,6 @@ func dbSetup() {
 	}
 }
 
-// Insert inserts a user into the database and returns the inserted ID
 func Insert(db *sql.DB, user Users) (int64, error) {
 	stmt, err := db.Prepare("INSERT INTO users(username, password) VALUES (?, ?)")
 	if err != nil {

@@ -12,7 +12,6 @@ var tmpl *template.Template
 var err error
 
 func templateParse() {
-
 	tmpl, err = template.ParseGlob("ui/html/*.html")
 	if err != nil {
 		log.Println("Error parsing templates:", err)
@@ -54,7 +53,12 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("Received: %s, %s\n", username, password)
 
-		_, err := Insert(db, Users{})
+		user := Users{
+			Username: username,
+			Password: password,
+		}
+
+		_, err := Insert(db, user)
 		if err != nil {
 			log.Println("Error inserting user:", err)
 			http.Error(w, "Database error", http.StatusInternalServerError)
