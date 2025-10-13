@@ -9,7 +9,6 @@ import (
 func main() {
 	dbSetup()
 	templateParse()
-	formData()
 	//router
 	router := http.NewServeMux()
 
