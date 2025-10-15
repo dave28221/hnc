@@ -72,6 +72,17 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		// work on this code  -- check for existing user in database ////////
+		users, err := existingUser(db, user)
+		if err != nil {
+			log.Println("Error finding user:", err)
+			return
+		}
+
+		if len(users) > 0 {
+			log.Println("existing users", users)
+		}
+
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}

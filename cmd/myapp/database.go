@@ -21,6 +21,7 @@ func HashPassword(password string) (string, error) {
 	return string(bytes), err
 }
 
+// what is this function for ----
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
@@ -55,7 +56,7 @@ func Insert(db *sql.DB, user Users) (int64, error) {
 
 // search for existing users - setup in handlers.go
 func existingUser(db *sql.DB, user Users) ([]Users, error) {
-	rows, err := db.Query("SELECT * FROM users WHERE username = ?", user)
+	rows, err := db.Query("SELECT id, FROM users WHERE username = ?", user.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +73,7 @@ func existingUser(db *sql.DB, user Users) ([]Users, error) {
 		matchingUsers = append(matchingUsers, user)
 	}
 	if err = rows.Err(); err != nil {
-		return matchingUsers, err
+		return nil, err
 	}
 	return matchingUsers, nil
 
