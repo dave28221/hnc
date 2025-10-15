@@ -9,10 +9,9 @@ import (
 func main() {
 	dbSetup()
 	templateParse()
-	//router
+
 	router := http.NewServeMux()
 
-	//routes
 	router.HandleFunc("/", homeHandler)
 	router.HandleFunc("/login", loginHandler)
 	router.HandleFunc("/create", createHandler)

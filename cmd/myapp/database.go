@@ -26,6 +26,7 @@ func CheckPasswordHash(password, hash string) bool {
 	return err == nil
 }
 
+// / create table if not exists - set this up
 func dbSetup() {
 	var err error
 	db, err = sql.Open("sqlite", "./app.db")
@@ -49,6 +50,30 @@ func Insert(db *sql.DB, user Users) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-
 	return res.LastInsertId()
+}
+
+// search for existing users - setup in handlers.go
+func existingUser(db *sql.DB, user Users) ([]Users, error) {
+	rows, err := db.Query("SELECT * FROM users WHERE username = ?", user)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// slice for the usernames
+	var matchingUsers []Users
+
+	for rows.Next() {
+		var user Users
+		if err := rows.Scan(&user.ID, &user.Username); err != nil {
+			return nil, err
+		}
+		matchingUsers = append(matchingUsers, user)
+	}
+	if err = rows.Err(); err != nil {
+		return matchingUsers, err
+	}
+	return matchingUsers, nil
+
 }

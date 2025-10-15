@@ -65,8 +65,6 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 			Password: hashedPassword,
 		}
 
-		// check if user already exists - create this function or sort this out
-
 		_, err := Insert(db, user)
 		if err != nil {
 			log.Println("Error inserting user:", err)
@@ -79,3 +77,18 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+/* check if user already exists - create this function or sort this out	exists,
+
+err := checkRecord(db, username)
+if err != nil {
+	log.Fatal(err)
+}
+
+if exists {
+	fmt.Println("User exists!")
+} else {
+	fmt.Println("User does not exist.")
+}
+
+*/
