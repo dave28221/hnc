@@ -53,6 +53,17 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("Received: %s, %s\n", username, password)
 
+		users, error := existingUser(db, Users{Username: username})
+		if error != nil {
+			http.Error(w, "Server error", http.StatusInternalServerError)
+			return
+		}
+
+		if len(users) > 0 {
+			http.Error(w, "Username already exists", http.StatusConflict)
+			return
+		}
+
 		hashedPassword, error := HashPassword(password)
 		if error != nil {
 			log.Println("Error hashing password:", err)
@@ -72,34 +83,8 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// work on this code  -- check for existing user in database ////////
-		users, err := existingUser(db, user)
-		if err != nil {
-			log.Println("Error finding user:", err)
-			return
-		}
-
-		if len(users) > 0 {
-			log.Println("existing users", users)
-		}
-
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
 }
-
-/* check if user already exists - create this function or sort this out	exists,
-
-err := checkRecord(db, username)
-if err != nil {
-	log.Fatal(err)
-}
-
-if exists {
-	fmt.Println("User exists!")
-} else {
-	fmt.Println("User does not exist.")
-}
-
-*/

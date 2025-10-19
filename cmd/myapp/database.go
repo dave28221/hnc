@@ -54,9 +54,8 @@ func Insert(db *sql.DB, user Users) (int64, error) {
 	return res.LastInsertId()
 }
 
-// search for existing users - setup in handlers.go
 func existingUser(db *sql.DB, user Users) ([]Users, error) {
-	rows, err := db.Query("SELECT id, FROM users WHERE username = ?", user.Username)
+	rows, err := db.Query("SELECT id, username FROM users WHERE username = ?", user.Username)
 	if err != nil {
 		return nil, err
 	}
