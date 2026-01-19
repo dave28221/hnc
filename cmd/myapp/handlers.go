@@ -51,7 +51,7 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("createUser")
 		password := r.FormValue("createPassword")
 
-		fmt.Printf("Received: %s, %s\n", username, password)
+		//fmt.Printf("Received: %s, %s\n", username, password)
 
 		users, error := existingUser(db, Users{Username: username})
 		if error != nil {
