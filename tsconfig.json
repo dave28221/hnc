@@ -1,32 +1,20 @@
 {
   "compilerOptions": {
-    // File Layout
-    "rootDir": "./ui/static/js",
-    "outDir": "./ui/static/js/dist",
+    "rootDir": "ui/static/ts",
+    "outDir": "ui/static/ts/dist",
 
-    // Environment Settings
-    "module": "esnext",
     "target": "ES6",
+    "module": "esnext",
     "lib": ["dom", "esnext"],
-    
-    // Other Outputs
+
     "sourceMap": true,
-    "declaration": false,
-    "declarationMap": false,
-
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-
-    // Recommended Options
     "strict": true,
-    "verbatimModuleSyntax": false,
+
     "isolatedModules": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["ui/static/js/**/*.ts"],
-  "exclude": ["node_modules", "ui/static/js/dist"]
+  "include": ["ui/static/ts/**/*.ts"],
+  "exclude": ["node_modules", "ui/static/ts/dist"]
 }

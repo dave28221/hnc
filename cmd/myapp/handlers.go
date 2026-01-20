@@ -5,11 +5,31 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/gorilla/sessions"
 )
 
 // package level variable
 var tmpl *template.Template
 var err error
+
+var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_TOKEN")))
+
+/*
+
+
+	session, _ := store.Get(r, "session-name")
+	// Set some session values.
+	session.Values["foo"] = "bar"
+	session.Values[42] = 43
+	// Save it before we write to the response/return from the handler.
+	err := session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+*/
 
 func templateParse() {
 	tmpl, err = template.ParseGlob("ui/html/*.html")
@@ -43,6 +63,11 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Template execution error:", err)
 		http.Error(w, "Template error", http.StatusInternalServerError)
 	}
+	/*
+		if r.Method == http.MethodPost {
+		username := r.FormValue("createUser")
+		password := r.FormValue("createPassword")
+	*/
 
 }
 
