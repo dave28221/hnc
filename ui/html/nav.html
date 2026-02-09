@@ -9,6 +9,10 @@
         <li><a href="#">show | </a></li>
         <li><a href="#">jobs | </a></li>
         <li><a href="#">submit</a></li>
+        {{if .isAuthenticated}}
+        <span>Welcome, {{.Username}}!</span>
+        <a href="/logout">Logout</a>
+        {{else}}
         <li><a href="login">login</a></li>
     </ul>
 </nav>
