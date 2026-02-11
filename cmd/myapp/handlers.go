@@ -48,32 +48,32 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check authentication FIRST
 	session, err := store.Get(r, "sessionCreation")
 	if err != nil {
-		session.Values["authenticated"] = false
-		session.Save(r, w)
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
+
+		err = tmpl.ExecuteTemplate(w, "index", nil)
+		if err != nil {
+			log.Println("Template execution error:", err)
+			http.Error(w, "Server error", http.StatusInternalServerError)
+		}
 		return
 	}
 
 	auth, ok := session.Values["authenticated"].(bool)
-	if !ok || !auth {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
+	if ok && auth {
+		username, _ := session.Values["username"].(string)
+		userData := struct {
+			Username        string
+			IsAuthenticated bool
+		}{
+			Username:        username,
+			IsAuthenticated: true,
+		}
+		err = tmpl.ExecuteTemplate(w, "index", userData)
+	} else {
+		err = tmpl.ExecuteTemplate(w, "index", nil)
 	}
 
-	username, _ := session.Values["username"].(string)
-
-	userData := struct {
-		Username        string
-		IsAuthenticated bool
-	}{
-		Username:        username,
-		IsAuthenticated: true,
-	}
-
-	err = tmpl.ExecuteTemplate(w, "index", userData)
 	if err != nil {
 		log.Println("Template execution error:", err)
 		http.Error(w, "Server error", http.StatusInternalServerError)
@@ -81,7 +81,14 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	// SORT OUT  SESSION TOKEN - HASH KEY IS NOT SET ////////
+	session, _ := store.Get(r, "sessionCreation")
+	auth, ok := session.Values["authenticated"].(bool)
+	if ok && auth {
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		err := tmpl.ExecuteTemplate(w, "login", nil)
 		if err != nil {
@@ -133,7 +140,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Set session options when creating the session
 		session.Options = &sessions.Options{
 			Path:     "/",
 			MaxAge:   3600 * 8, // 8 hours
@@ -145,7 +151,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		session.Values["authenticated"] = true
 		session.Values["username"] = username
 
-		// Save session
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println("Session save error:", err)
@@ -153,7 +158,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Redirect to homepage
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
