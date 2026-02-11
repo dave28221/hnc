@@ -9,11 +9,12 @@
         <li><a href="#">show | </a></li>
         <li><a href="#">jobs | </a></li>
         <li><a href="#">submit</a></li>
-        {{if .isAuthenticated}}
-        <span>Welcome, {{.Username}}!</span>
-        <a href="/logout">Logout</a>
+        {{if .IsAuthenticated}}
+        <span class="welcome">Welcome, {{.Username}}!</span>
+        <li><a href="/logout">Logout</a></li>
         {{else}}
         <li><a href="login">login</a></li>
+        {{end}}
     </ul>
 </nav>
 {{end}}

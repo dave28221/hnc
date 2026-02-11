@@ -20,7 +20,7 @@ p {
 }
 
 nav {
-    text-align: center;
+    padding-left:20px;
     background-color: #ff6600;
     margin-top: 10px;
 
@@ -43,7 +43,7 @@ nav li {
 
 nav li a {
     text-decoration: none;
-    font-size: 12px;
+    font-size: 12px !important;
     color: #000000;
 
 }
@@ -113,3 +113,9 @@ input:invalid {
 td {
     font-size: 13px;
 }
+
+.welcome{
+    font-size:12px !important;
+    margin-top:2px;
+}
+

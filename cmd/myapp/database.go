@@ -53,9 +53,8 @@ func Insert(db *sql.DB, user Users) (int64, error) {
 	}
 	return res.LastInsertId()
 }
-
 func existingUser(db *sql.DB, user Users) ([]Users, error) {
-	rows, err := db.Query("SELECT id, username FROM users WHERE username = ?", user.Username)
+	rows, err := db.Query("SELECT id, username, password FROM users WHERE username = ?", user.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +65,7 @@ func existingUser(db *sql.DB, user Users) ([]Users, error) {
 
 	for rows.Next() {
 		var user Users
-		if err := rows.Scan(&user.ID, &user.Username); err != nil {
+		if err := rows.Scan(&user.ID, &user.Username, &user.Password); err != nil {
 			return nil, err
 		}
 		matchingUsers = append(matchingUsers, user)
@@ -75,5 +74,4 @@ func existingUser(db *sql.DB, user Users) ([]Users, error) {
 		return nil, err
 	}
 	return matchingUsers, nil
-
 }

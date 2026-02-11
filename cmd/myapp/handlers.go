@@ -8,12 +8,27 @@ import (
 	"os"
 
 	"github.com/gorilla/sessions"
+	"github.com/joho/godotenv"
 )
 
 var tmpl *template.Template
 var err error
+var store = sessions.NewCookieStore()
 
-var store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_TOKEN")))
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("can't get .env file")
+	}
+
+	sessionToken := os.Getenv("SESSION_TOKEN")
+	if sessionToken == "" {
+		log.Fatal("SESSION_TOKEN is not set")
+	}
+
+	store = sessions.NewCookieStore([]byte(sessionToken))
+
+}
 
 func templateParse() {
 	tmpl, err = template.ParseGlob("ui/html/*.html")
@@ -52,10 +67,10 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	userData := struct {
 		Username        string
-		isAuthenticated bool
+		IsAuthenticated bool
 	}{
 		Username:        username,
-		isAuthenticated: true,
+		IsAuthenticated: true,
 	}
 
 	err = tmpl.ExecuteTemplate(w, "index", userData)
@@ -66,6 +81,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+	// SORT OUT  SESSION TOKEN - HASH KEY IS NOT SET ////////
 	if r.Method == http.MethodGet {
 		err := tmpl.ExecuteTemplate(w, "login", nil)
 		if err != nil {
@@ -79,6 +95,8 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("Username")
 		password := r.FormValue("Password")
 
+		log.Printf("DEBUG: Login attempt for username='%s', password length=%d", username, len(password))
+
 		users, err := existingUser(db, Users{Username: username})
 		if err != nil {
 			log.Println("Database error:", err)
@@ -86,16 +104,27 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		log.Printf("DEBUG: Found %d users", len(users))
+
 		if len(users) == 0 {
+			log.Printf("DEBUG: No user found with username '%s'", username)
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
 		}
 
 		user := users[0]
-		if !CheckPasswordHash(password, user.Password) {
+		log.Printf("DEBUG: User from DB - username='%s', password hash length=%d", user.Username, len(user.Password))
+
+		passwordMatch := CheckPasswordHash(password, user.Password)
+		log.Printf("DEBUG: Password match result: %v", passwordMatch)
+
+		if !passwordMatch {
+			log.Printf("DEBUG: Password check FAILED for user '%s'", username)
 			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 			return
 		}
+
+		log.Printf("DEBUG: Login successful for '%s'", username)
 
 		session, err := store.Get(r, "sessionCreation")
 		if err != nil {
